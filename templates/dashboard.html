@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instaprint Dashboard</title>
+    <link href="./../static/css/main.css" rel="stylesheet" />
+    <link href="./../static/css/dashboard.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <leftmenu class="menu">
+            <!--Account-->
+            <div class="account">
+                <i class="fa-solid fa-user-circle profile-icon"></i>
+                <div class="account-info">
+                    <p class="name">Alice Guo</p>
+                    <p class="role">Admin</p>
+                </div>
+            </div>
+
+            <h2>Navigation</h2>
+            <ul>
+                <li><i class="fa-solid fa-house"></i> <a href="#home">Dashboard</a></li>
+                <li><i class="fa-solid fa-print"></i> <a href="#about">Printed Pages</a></li>
+                <li><i class="fa-solid fa-upload"></i> <a href="#services">Files Upload</a></li>
+                <li><i class="fa-solid fa-wallet"></i> <a href="#contact">Balance</a></li>
+                <li><i class="fa-solid fa-comments"></i> <a href="#feedbacks">Feedbacks</a></li>
+            </ul>
+        </leftmenu>
+
+        <content class="contents">
+            <div class="stats">
+                <div class="card">₱{{ data.total_sales }} <br> Total Sales</div>
+                <div class="card">{{ data.printed_pages }} <br> Printed Pages</div>
+                <div class="card">{{ data.files_uploaded }} <br> Files Uploaded</div>
+                <div class="card">₱{{ data.current_balance }} <br> Current Balance</div>
+            </div>
+
+            <div class="charts">
+                <div class="chart-box">
+                    <h3>Transaction History</h3>
+                    {% for transaction in data.sales_history %}
+                    <div class="transaction">
+                        <span>{{ transaction.method }}</span>
+                        <span>₱{{ transaction.amount }}</span>
+                        <small>{{ transaction.date }} - {{ transaction.time }}</small>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <div class="chart-box">
+                    <h3>Sales in Year</h3>
+                    <canvas id="salesChart"></canvas>
+                </div>
+            </div>
+        </content>
+
+    <script>
+        var salesData = {{ data.sales_chart | tojson }};
+    </script>
+
+    <script src="./../static/js/main.js" rel="stylesheet"></script>
+</body>
+</html>
